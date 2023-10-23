@@ -1,0 +1,59 @@
+<%- include('layout/header') %>
+<link href="../src/index.css" rel="stylesheet">
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        min-height: 93.7vh; /* 최소 높이를 화면 전체 높이로 설정합니다. */
+        width: 100vw;
+        flex-direction: row;
+    }
+
+    .list-box{
+        width: 25vw;
+        background-color: #d9d9d9;
+        padding: 15px;
+    }
+    .info-box{
+        width: 25vw;
+        background-color: #f6f6f6;
+        text-align: center;
+        
+    }
+    .map-box{
+        width: 50vw;
+        background-color: #ffffff;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="list-box">
+        <h6>경기도 용인시 처인구 고림동</h6>
+        <h5 style="font-weight: bold;">주변에 전시된 옷들이에요</h5>
+    </div>
+    <div class="info-box">
+        옷 이미지
+    </div>
+    <div class="map-box" id="map"></div>
+</div>
+
+<!-- 지도를 표시할 div 입니다 -->
+<div id="map" style="width:100%;height:350px;"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=12ef2758cc4c7fa3128ee1e8fbaba3b0"></script>
+
+<!-- 지도를 표시할 div 입니다 -->
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+        mapOption = { 
+            center: new kakao.maps.LatLng(37.240904, 127.216293), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption); 
+</script>
+<%- include('layout/footer') %>
