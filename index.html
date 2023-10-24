@@ -1,0 +1,192 @@
+<!-- header -->
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Offline</title>
+    <!-- bootstrap import -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- css, js/favicon import -->
+    <link href="./src/index.css" rel="stylesheet">
+    <script src="./src/index.js"></script>
+    <link rel="icon" href="./src/media/favicon.png" type="image/x-icon">
+    <!-- custom import -->
+    <!-- cute-alert -->
+    <link rel="stylesheet" href="src/cute-alert-master/style.css" />
+    <script src="src/cute-alert-master/cute-alert.js"></script>
+    <!-- sweet-alert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    <!-- https://www.cssscript.com/alert-confirm-toast-cute/ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+    <!-- https://sweetalert2.github.io/ -->
+    <!-- animate css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- loading page import -->
+    <link rel="import" href="/src/loading.html">
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+<body>
+    <!-- header -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark" id="webHeader">
+        <div class="container-fluid">
+            <a class="animate__animated animate__flipInY navbar-brand font-BMDOHYEON" href="#">Offline</a>
+
+            <form class="d-flex" role="login">
+                <button class="btn btn-dark" type="button" onclick="loginBtn()" title="로그인 창으로">로그인</button>
+            </form>
+        </div>
+    </nav>
+    <!-- !header -->
+
+    <!-- 지도 div -->
+    <div id="mapDiv"></div>
+
+    <!-- 내 위치 btn -->
+    <button id="getMyPositionBtn" onclick="getCurrentPosBtn()" title="내 위치">
+        <img src="./src/media/myLocation.png" height="20px" width="20px">
+    </button>
+
+    <!-- 상품 리스트 -->
+    <div class="animate__animated animate__fadeInLeft" id="clothes-list">
+        <div class="list-container">
+            <ol>
+                <div class="animate__animated animate__fadeInLeft list-element font-BMDOHYEON">
+                    <h3 class="list-element-title">
+                        title
+                    </h3>
+                    <p class="list-element-document">
+                        document<br>
+                        ...
+                    </p>
+                    <p class="list-element-moreinfo"></p>
+                </div>
+            </ol>
+        </div>
+        <div class="animate__animated animate__zoomIn clothes-list-title">
+            <h2 id="list-title-top" class="font-BMDOHYEON"><span id="address"></h2><br>
+            <h1 id="list-title-bottom" class="font-BMDOHYEON">주변에 전시 된 옷들이에요.</h1>
+        </div>
+    </div>
+
+    <!-- 로그인 모달 -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                ...
+            </div>
+        </div>
+    </div>
+
+
+    <!-- script  -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=10f14d8fa00b584bbeaaae4fe5681ee2"></script>
+    <!-- 주소 관련 -->
+    <script>
+        function getNowLocation() {
+            document.getElementById("address").textContent = "주소를 불러오는 중 . . ."
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+                    var geocodingApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCvFIrXUBEoQBpjBygqSqO42m4I0X3tPpk`;
+
+                    fetch(geocodingApiUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.results.length > 0) {
+                                var fullAddress = data.results[0].formatted_address;
+                                // 주소에서 원하는 부분만 추출
+                                var parts = fullAddress.split(" ");
+                                var customAddress = parts.slice(1, 5).join(" ");
+                                document.getElementById("address").textContent = customAddress;
+                            } else {
+                                document.getElementById("address").textContent = "주소를 찾을 수 없습니다.";
+                            }
+                        })
+                        .catch(error => {
+                            document.getElementById("address").textContent = "주소를 찾을 수 없습니다.";
+                        });
+                });
+            } else {
+                document.getElementById("address").textContent = "브라우저가 위치 정보를 지원하지 않습니다.";
+            }
+        }
+        getNowLocation();
+    </script>
+    <!-- 인터넷 연결 관련 -->
+    <script>
+        function checkInternetConnection() {
+            var status = document.getElementById("address");
+            var online = navigator.onLine;
+
+            if (online) {
+                // status.textContent = "현재 인터넷에 연결되어 있습니다.";
+            } else {
+                status.textContent = "인터넷 연결을 확인해주세요.";
+            }
+        }
+
+        // 페이지가 로드될 때와 인터넷 연결 상태가 변경될 때 확인
+        window.addEventListener('online', checkInternetConnection);
+        window.addEventListener('offline', checkInternetConnection);
+
+        // 초기 상태 확인
+        checkInternetConnection();
+    </script>
+    <!-- 지도 관련 -->
+    <script>
+        var mapContainer = document.getElementById('mapDiv'), // 지도를 표시할 div 
+            mapOption = {
+                // 37.240878, 127.216365 덕영고 운동장
+                center: new kakao.maps.LatLng(37.240878, 127.216365), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+
+        // 맵 생성
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+        getCurrentPosBtn(); // 내 좌표로 위치 설정
+
+        // 줌 컨트롤
+        var zoomControl = new kakao.maps.ZoomControl();
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+
+        function locationLoadSuccess(pos) {
+            // 현재 위치 받아오기
+            var currentPos = new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+
+            // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
+            map.panTo(currentPos);
+        };
+
+        function locationLoadError(pos) {
+            cuteToast({
+                type: "error", // or 'info', 'error', 'warning'
+                title: "내 위치를 확인하려면 위치 권한을 수락해주세요.",
+                message: "",
+                timer: 4000,
+            })
+
+        };
+
+        // 위치 가져오기 버튼 클릭시
+        function getCurrentPosBtn() {
+            navigator.geolocation.getCurrentPosition(locationLoadSuccess, locationLoadError);
+            map.setLevel(3);
+        };
+
+        function loginBtn() {
+            alert("구현 중입니다.")
+        }
+    </script>
+</body>
+
+</html>

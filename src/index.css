@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
+
+/* scroll block */
+body {
+    overflow: unset;
+}
+
+/* font custom */
+@font-face {
+    font-family: 'BMDOHYUN';
+    /* 폰트 이름 */
+    src: url('font.ttf') format('truetype');
+    /* .ttf 파일의 경로 */
+}
+
+body {
+    /* 폰트 적용 및 대체 폰트 */
+    font-family: 'BMDOHYUN', sans-serif;
+}
+
+.font-BMDOHYEON {
+    font-family: 'BMDOHYUN', sans-serif;
+}
+
+
+
+#webHeader {
+    z-index: 100;
+}
+
+#mapDiv {
+    width:100vw;
+    height: calc(100vh - 54px);
+    
+    position: relative;
+    z-index: 1;
+}
+
+#getMyPositionBtn {
+    height: 34px;
+    background-color: white;
+
+    border-radius: 3px;
+    border-width: 1px;
+
+    /* 버튼을 div 위에 표시 */
+    position: absolute;
+    top: 95vh;
+    left: 97vw;
+
+    z-index: 2;
+}
+
+
+#clothes-list {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+
+    top: 54px;
+    left: 0;
+    position: absolute;
+
+    width: 25vw;
+    height: calc(100vh - 54px);
+    background-color: white;
+    
+
+    z-index: 10;
+}
+
+.clothes-list-title {
+    padding: 25px;
+    width: 100%;
+
+    height: auto;
+
+}
+
+#list-title-top {
+    font-size: 20px;
+    color: grey;
+}
+
+#list-title-bottom {
+    font-size: 30px;
+    color: black;
+}
+
+.list-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 85vh;
+    width: 100%;
+    text-align: center;
+    
+    background: linear-gradient(to bottom, #ffffff 90%, #dddddd);
+    
+    overflow: auto;
+}
+
+.list-element {
+    height: 14vh;
+    width: 90%;
+    
+    padding: 15px;
+    margin: 5px;
+    
+    display: inline-block;
+    text-align: left;
+    
+    border-radius: 15px;
+
+    /* 그림자 스타일 설정 */
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+.list-element-title {
+    font-size: 20;
+}
+.list-element-document {
+
+}
+.list-element-moreinfo {
+
+}
+
+/* 스크롤바 설정*/
+.list-container::-webkit-scrollbar {
+    width: 14px;
+}
+
+/* 스크롤바 막대 설정*/
+.list-container::-webkit-scrollbar-thumb {
+    background-color: #232323;
+    /* 스크롤바 둥글게 설정    */
+    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+}
+
+/* 스크롤바 뒷 배경 설정*/
+.list-container::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* html init */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}

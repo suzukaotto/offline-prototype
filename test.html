@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>인터넷 연결 확인</title>
+</head>
+<body>
+    <h1>인터넷 연결 확인</h1>
+    
+    <p id="connection-status"></p>
+
+    <script>
+        function checkInternetConnection() {
+            var status = document.getElementById("connection-status");
+            var online = navigator.onLine;
+
+            if (online) {
+                status.textContent = "현재 인터넷에 연결되어 있습니다.";
+            } else {
+                status.textContent = "인터넷에 연결되어 있지 않습니다.";
+            }
+        }
+
+        // 페이지가 로드될 때와 인터넷 연결 상태가 변경될 때 확인
+        window.addEventListener('online', checkInternetConnection);
+        window.addEventListener('offline', checkInternetConnection);
+
+        // 초기 상태 확인
+        checkInternetConnection();
+    </script>
+</body>
+</html>
