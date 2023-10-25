@@ -7,10 +7,10 @@ body {
 
 /* font custom */
 @font-face {
-    font-family: 'BMDOHYUN';
     /* 폰트 이름 */
-    src: url('font.ttf') format('truetype');
+    font-family: 'BMDOHYUN';
     /* .ttf 파일의 경로 */
+    src: url('font.ttf') format('truetype');
 }
 
 body {
@@ -18,10 +18,9 @@ body {
     font-family: 'BMDOHYUN', sans-serif;
 }
 
-.font-BMDOHYEON {
+* {
     font-family: 'BMDOHYUN', sans-serif;
 }
-
 
 
 #webHeader {
@@ -85,6 +84,7 @@ body {
 #list-title-bottom {
     font-size: 30px;
     color: black;
+    font-weight: bold;
 }
 
 .list-container {

@@ -1,31 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>인터넷 연결 확인</title>
-</head>
-<body>
-    <h1>인터넷 연결 확인</h1>
-    
-    <p id="connection-status"></p>
-
-    <script>
-        function checkInternetConnection() {
-            var status = document.getElementById("connection-status");
-            var online = navigator.onLine;
-
-            if (online) {
-                status.textContent = "현재 인터넷에 연결되어 있습니다.";
-            } else {
-                status.textContent = "인터넷에 연결되어 있지 않습니다.";
-            }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            position: relative;
         }
 
-        // 페이지가 로드될 때와 인터넷 연결 상태가 변경될 때 확인
-        window.addEventListener('online', checkInternetConnection);
-        window.addEventListener('offline', checkInternetConnection);
+        .main-div {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            text-align: center;
+            line-height: 100px;
+            cursor: pointer;
+            transition: transform 0.5s;
+            position: relative;
+        }
 
-        // 초기 상태 확인
-        checkInternetConnection();
+        .toggle-div {
+            width: 100px;
+            height: 100px;
+            background-color: lightcoral;
+            text-align: center;
+            line-height: 100px;
+            display: none;
+            transition: transform 0.5s;
+            position: absolute;
+            top: 0;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-div">Click me!</div>
+        <div class="toggle-div">I'm here!</div>
+    </div>
+
+    <script>
+        const mainDiv = document.querySelector(".main-div");
+        const toggleDiv = document.querySelector(".toggle-div");
+        let isOpen = false;
+
+        mainDiv.addEventListener("click", () => {
+            if (!isOpen) {
+                toggleDiv.style.display = "block";
+                toggleDiv.style.transform = "translateX(-100px)";
+                isOpen = true;
+            } else {
+                toggleDiv.style.transform = "translateX(0)";
+                toggleDiv.style.display = "none";
+                isOpen = false;
+            }
+        });
     </script>
 </body>
 </html>

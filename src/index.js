@@ -1,4 +1,5 @@
 import 'animate.css'
+import { addAnimation, removeAnimation } from './animation-utils.js';
 
 const elements = document.querySelectorAll(".list-element");
 const shadow = document.getElementById("list-shadow")
@@ -21,7 +22,9 @@ for (const element of elements) {
     })
 }
 
-// list element 부분
+
+
+// list element 추가 부분
 // data
 const items = [
     { title: "[BIG EVENT] 1+1 아이보리 니트" },

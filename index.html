@@ -35,7 +35,7 @@
     <!-- header -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark" id="webHeader">
         <div class="container-fluid">
-            <a class="animate__animated animate__flipInY navbar-brand font-BMDOHYEON" href="#">Offline</a>
+            <a class="navbar-brand font-BMDOHYEON animate__animated animate__flipInY" href="#">Offline</a>
 
             <form class="d-flex" role="login">
                 <button class="btn btn-dark" type="button" onclick="loginBtn()" title="로그인 창으로">로그인</button>
@@ -45,7 +45,7 @@
     <!-- !header -->
 
     <!-- 지도 div -->
-    <div id="mapDiv"></div>
+    <div class="animate__animated animate__pulse" id="mapDiv"></div>
 
     <!-- 내 위치 btn -->
     <button id="getMyPositionBtn" onclick="getCurrentPosBtn()" title="내 위치">
@@ -86,51 +86,110 @@
 
 
     <!-- script  -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=10f14d8fa00b584bbeaaae4fe5681ee2"></script>
-    <!-- 주소 관련 -->
+    <!-- 애니메이션 관련 -->
     <script>
-        function getNowLocation() {
-            document.getElementById("address").textContent = "주소를 불러오는 중 . . ."
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
+        import { addAnimation, removeAnimation } from './animation-utils.js';
 
-                    var geocodingApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCvFIrXUBEoQBpjBygqSqO42m4I0X3tPpk`;
+        const animatedElement = document.querySelector('.animate__animated');
+        const animateButton = document.getElementById('address');
 
-                    fetch(geocodingApiUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.results.length > 0) {
-                                var fullAddress = data.results[0].formatted_address;
-                                // 주소에서 원하는 부분만 추출
-                                var parts = fullAddress.split(" ");
-                                var customAddress = parts.slice(1, 5).join(" ");
-                                document.getElementById("address").textContent = customAddress;
-                            } else {
-                                document.getElementById("address").textContent = "주소를 찾을 수 없습니다.";
-                            }
-                        })
-                        .catch(error => {
-                            document.getElementById("address").textContent = "주소를 찾을 수 없습니다.";
-                        });
-                });
-            } else {
-                document.getElementById("address").textContent = "브라우저가 위치 정보를 지원하지 않습니다.";
-            }
-        }
-        getNowLocation();
     </script>
+
+    <!-- 주소, 위치 권한 관련 -->
+    <script>
+        function getNowLocationAddress() {
+            document.getElementById("address").textContent = "주소를 불러오는 중 . . ."
+
+            navigator.geolocation.getCurrentPosition(getNowLocation()
+                .then(result => {
+                    console.log(result)
+                    document.getElementById("address").textContent = result;
+                })
+                .catch(error => {
+                    console.log(error)
+
+                    // error msg 커스텀
+                    getNowLocationAddressErrorMsg = String(error)
+                    cleanErrorMsg = getNowLocationAddressErrorMsg.replace('Error: ', '')
+                    document.getElementById("address").textContent = cleanErrorMsg;
+                })
+                , getNowLocationError);
+
+            function getNowLocation() {
+                return new Promise((resolve, reject) => {
+                    const timeout = 10000;
+
+                    const timer = setTimeout(() => {
+                        clearTimeout(timer);
+                        getNowLocationRejectError("주소를 불러올 수 없습니다.")
+                    }, timeout);
+
+                    if ("geolocation" in navigator) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            var latitude = position.coords.latitude;
+                            var longitude = position.coords.longitude;
+
+                            var geocodingApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCvFIrXUBEoQBpjBygqSqO42m4I0X3tPpk`;
+
+                            fetch(geocodingApiUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.results.length > 0) {
+                                        var fullAddress = data.results[0].formatted_address;
+                                        // 주소에서 원하는 부분만 추출
+                                        var parts = fullAddress.split(" ");
+                                        var customAddress = parts.slice(1, 5).join(" ");
+
+                                        clearTimeout(timer);
+                                        resolve(customAddress)
+                                    } else {
+                                        getNowLocationRejectError("주소를 찾을 수 없습니다.");
+                                    }
+                                })
+                                .catch(error => {
+                                    getNowLocationRejectError("주소를 찾을 수 없습니다.");
+                                });
+                        });
+
+                    } else {
+                        getNowLocationRejectError("브라우저가 위치 정보를 지원하지 않습니다.");
+                    }
+
+                    function getNowLocationRejectError(error_msg) {
+                        clearTimeout(timer);
+                        reject(new Error(error_msg));
+                    }
+                });
+            }
+        } 
+    </script>
+
     <!-- 인터넷 연결 관련 -->
     <script>
+        var first = true
         function checkInternetConnection() {
             var status = document.getElementById("address");
             var online = navigator.onLine;
 
             if (online) {
-                // status.textContent = "현재 인터넷에 연결되어 있습니다.";
+                if (!first) {
+                    cuteToast({
+                        type: "success", // or 'info', 'error', 'warning'
+                        title: "인터넷에 다시 연결되었습니다.",
+                        message: "",
+                        timer: 4000,
+                    })
+                }
+                getNowLocationAddress()
             } else {
+                first = false
                 status.textContent = "인터넷 연결을 확인해주세요.";
+                cuteToast({
+                    type: "error", // or 'info', 'error', 'warning'
+                    title: "인터넷 연결이 끊겼습니다.",
+                    message: "",
+                    timer: 4000,
+                })
             }
         }
 
@@ -141,7 +200,10 @@
         // 초기 상태 확인
         checkInternetConnection();
     </script>
+
     <!-- 지도 관련 -->
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=10f14d8fa00b584bbeaaae4fe5681ee2"></script>
     <script>
         var mapContainer = document.getElementById('mapDiv'), // 지도를 표시할 div 
             mapOption = {
@@ -169,22 +231,27 @@
 
         function locationLoadError(pos) {
             cuteToast({
-                type: "error", // or 'info', 'error', 'warning'
+                type: "warning", // or 'info', 'error', 'warning'
                 title: "내 위치를 확인하려면 위치 권한을 수락해주세요.",
                 message: "",
                 timer: 4000,
             })
-
         };
 
-        // 위치 가져오기 버튼 클릭시
+        // 위치 가져오기 버튼 클릭 시
         function getCurrentPosBtn() {
             navigator.geolocation.getCurrentPosition(locationLoadSuccess, locationLoadError);
             map.setLevel(3);
         };
 
+        // 로그인 버튼 클릭 시
         function loginBtn() {
-            alert("구현 중입니다.")
+            Swal.fire({
+                icon: 'error',
+                title: '구현 중입니다',
+                text: '',
+                footer: ''
+            })
         }
     </script>
 </body>
