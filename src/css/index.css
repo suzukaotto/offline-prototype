@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
 
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
 /* scroll block */
 body {
-    overflow: unset;
+    overflow: hidden;
 }
 
 /* font custom */
@@ -18,19 +23,15 @@ body {
     font-family: 'BMDOHYUN', sans-serif;
 }
 
-* {
-    font-family: 'BMDOHYUN', sans-serif;
-}
-
 
 #webHeader {
     z-index: 100;
 }
 
 #mapDiv {
-    width:100vw;
+    width: 100vw;
     height: calc(100vh - 54px);
-    
+
     position: relative;
     z-index: 1;
 }
@@ -60,10 +61,9 @@ body {
     left: 0;
     position: absolute;
 
-    width: 25vw;
+    width: 500px;
     height: calc(100vh - 54px);
     background-color: white;
-    
 
     z-index: 10;
 }
@@ -76,64 +76,169 @@ body {
 
 }
 
+#getNowAddressRefreshBtn {
+    width: 20px;
+    height: 20px;
+
+    margin: auto;
+    cursor: pointer;
+
+    visibility: hidden;
+}
+
+#list-title-top-div {
+    display: flex;
+    line-height: 200%;
+}
+
 #list-title-top {
     font-size: 20px;
     color: grey;
 }
 
-#list-title-bottom {
+#list-title-bottom-div {
     font-size: 30px;
     color: black;
     font-weight: bold;
 }
 
 .list-container {
-    padding-top: 20px;
+    padding-top: 10px;
     padding-bottom: 20px;
     height: 85vh;
     width: 100%;
     text-align: center;
-    
+
+    display: flex;
+    flex-direction: row;
+
     background: linear-gradient(to bottom, #ffffff 90%, #dddddd);
-    
+
     overflow: auto;
 }
 
+
+/* 리스트 스타일 */
 .list-element {
-    height: 14vh;
-    width: 90%;
-    
-    padding: 15px;
-    margin: 5px;
-    
-    display: inline-block;
-    text-align: left;
-    
+    height: 170px;
+    width: 460px;
+
+    padding: 12px;
+    margin: 15px;
+    padding-left: 14px;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+
     border-radius: 15px;
 
     /* 그림자 스타일 설정 */
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
 }
-.list-element-title {
-    font-size: 20;
+
+#list-element-item {
 }
-.list-element-document {
+
+#list-element-image-container {
+    height: 100%;
+    width: 35%;
+    border-radius: 10px;
+    background-color: white;
+    overflow: hidden; /* 이미지를 컨테이너 내에 숨기기 위해 */
+    display: flex;
+    justify-content: center;
+    
+}
+
+#list-element-image {
+    width: 100%;
+    border-radius: 5px;
+    margin: 0 auto;
+    object-fit: cover; /* 이미지를 컨테이너에 맞춰서 자르도록 함 */
+    width: 100%;
 
 }
-.list-element-moreinfo {
+
+
+#list-element-info-container {
+    margin-left: 30px;
+
+    text-align: left;
+}
+.list-element-info-product-name-container {
+    padding: 10px 0 10px 0
+}
+#list-element-info-product-name {
+    font-size: 25px;
+    color: black;
+    font-weight: bold;
+
+    line-height: 100%;
+}
+
+#list-element-info-store-name {
+    font-size: 15px;
+    color: black;
+
+    line-height: 150%;
+}
+
+#list-element-info-store-address {
+    font-size: 15px;
+    color: black;
+
+    line-height: 150%;
+}
+
+#list-element-info-product-price-container {
+    display: flex;
+    flex-direction: row;
+
+    line-height: 370%;
+}
+#list-element-info-product-price {
+    font-size: 30px;
+    color: red;
 
 }
+#list-element-info-product-discount {
+    margin-left: 4px;
+    font-size: 20px;
+    color: black;
+}
+
+#list-element-info-distance-div {
+    position: relative;
+
+    top: -98.2%;
+    left: 115%;
+}
+#list-element-info-distance-title{
+    font-size: 10px;
+    color: black;
+
+    line-height: 130%;
+}
+#list-element-info-distance {
+    color: blue;
+    font-weight: bold;
+}
+
+
+
+
 
 /* 스크롤바 설정*/
 .list-container::-webkit-scrollbar {
-    width: 14px;
+    width: 7px;
 }
 
 /* 스크롤바 막대 설정*/
 .list-container::-webkit-scrollbar-thumb {
     background-color: #232323;
-    /* 스크롤바 둥글게 설정    */
-    border-radius: 5px;
+    border-radius: 2px;
     border: 2px solid rgba(0, 0, 0, 0.8);
 }
 
@@ -141,6 +246,63 @@ body {
 .list-container::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 모달 부분 */
+#loginModal {
+    width: 100%;
+    height: calc(100vh - 54px);
+
+    top: 0;
+    left: 0;
+
+    margin-top: 54px;
+
+    display: none;
+
+    position: fixed;
+    overflow: auto;
+
+    background-color: rgba(0, 0, 0, 0.4);
+
+    z-index: 80;
+}
+
+#loginModalCloseBtn {
+    position: relative;
+
+    height: 20px;
+    width: 20px;
+
+    left: 88.5%;
+
+    cursor: pointer;
+    margin: 15px;
+    font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
 
 /* html init */
 html,
