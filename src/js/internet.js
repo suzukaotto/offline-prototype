@@ -1,4 +1,5 @@
 var first = true
+
 function checkInternetConnection() {
     var status = document.getElementById("address");
     var online = navigator.onLine;
