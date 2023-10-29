@@ -53,10 +53,18 @@ function loginBtn() {
 
 // product info창 지도
 
-var productInfoStaticMapContainer = document.getElementById('product-info-loca-map'),
-    staticMapOption  = { 
+var productInfoLocaMapContainer = document.getElementById('product-info-loca-map'),
+    productInfoLocaMapOption  = { 
         center: new kakao.maps.LatLng(37.235378, 127.207034), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };
 
-var staticMapmap = new kakao.maps.StaticMap(productInfoStaticMapContainer, mapOption);
+var staticMap = new kakao.maps.Map(productInfoLocaMapContainer, productInfoLocaMapOption);
+
+var markerPosition  = new kakao.maps.LatLng(37.235378, 127.207034);
+
+var marker = new kakao.maps.Marker({
+    position: markerPosition
+});
+
+marker.setMap(staticMap);
